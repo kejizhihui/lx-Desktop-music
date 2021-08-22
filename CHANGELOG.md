@@ -6,6 +6,36 @@ Project versioning adheres to [Semantic Versioning](http://semver.org/).
 Commit convention is based on [Conventional Commits](http://conventionalcommits.org).
 Change log format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.12.2](https://github.com/lyswhut/lx-music-desktop/compare/v1.12.1...v1.12.2) - 2021-08-11
+
+### 修复
+
+- 修复播放下载列表的歌曲时切歌的问题
+- 修复播放下载列表的歌曲时歌词无法显示的问题
+- 修复下载列表稍后播放功能无效的问题
+- 修复同步服务器启动失败时，关闭同步服务不会清空失败信息的问题
+
+## [1.12.1](https://github.com/lyswhut/lx-music-desktop/compare/v1.12.0...v1.12.1) - 2021-08-08
+
+### 修复
+
+- 修复随机播放下无法切歌的问题
+
+## [1.12.0](https://github.com/lyswhut/lx-music-desktop/compare/v1.11.0...v1.12.0) - 2021-08-08
+
+### 新增
+
+- 新增局域网同步功能（实验性，首次使用前建议先备份一次列表），此功能需要配合PC端使用，移动端与PC端处在同一个局域网（路由器的网络）下时，可以多端实时同步歌曲列表，使用问题请看"常见问题"。
+
+### 优化
+
+- 添加播放器对系统媒体控制与显示的兼容处理，现在在windows下的锁屏界面可以正确显示当前播放的音乐信息及切换歌曲了
+
+### 修复
+
+- 修复导入kg歌单最多只能加载100、500首歌曲的问题。注：现在可以加载1000+首歌曲的歌单，但出于未知原因会导致部分歌曲无法加载（可能是无版权导致的），目前酷狗码仍然最多只能加载500首歌
+- 修复某些情况下所显示的歌词、封面图片与当前正在播放的歌曲不一致的问题
+
 ## [1.11.0](https://github.com/lyswhut/lx-music-desktop/compare/v1.10.2...v1.11.0) - 2021-07-18
 
 ### 新增

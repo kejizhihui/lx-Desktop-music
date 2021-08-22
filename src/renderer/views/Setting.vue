@@ -130,7 +130,7 @@ div(:class="$style.main")
           p
             material-btn(:class="$style.btn" min @click="handleChangeSavePath") {{$t('view.setting.download_path_change_btn')}}
       dd
-        h3#download_name {{$t('view.setting.download_use_other_source')}}
+        h3#download_use_other_source {{$t('view.setting.download_use_other_source')}}
         div
           material-checkbox(id="setting_download_isUseOtherSource" v-model="current_setting.download.isUseOtherSource" :label="$t('view.setting.is_enable')")
         div
@@ -158,7 +158,7 @@ div(:class="$style.main")
           p.small {{$t('view.setting.sync_address', { address: sync.status.address.join(', ') || '' })}}
           p.small {{$t('view.setting.sync_device', { devices: syncDevices })}}
           p
-            material-btn(:class="$style.btn" min :disabled="!current_setting.sync.enable" @click="handleRefreshSyncCode") {{$t('view.setting.sync_refresh_code')}}
+            material-btn(:class="$style.btn" min :disabled="!sync.status.status" @click="handleRefreshSyncCode") {{$t('view.setting.sync_refresh_code')}}
       dd
         h3#sync_port {{$t('view.setting.sync_port')}}
         div
@@ -277,6 +277,17 @@ div(:class="$style.main")
           strong (为免满人，无事勿加，入群先看群公告)
           | ，或到 GitHub 提交&nbsp;
           span.hover.underline(:tips="$t('view.setting.click_open')" @click="handleOpenUrl('https://github.com/lyswhut/lx-music-desktop/issues')") issue
+
+        br
+        p.small
+          | 如果你喜欢并经常使用洛雪音乐，并想要第一时间尝鲜洛雪的新功能&nbsp;
+          span(style="text-decoration: line-through;") （当小白鼠）
+          | ，
+        p
+          | 可以加入测试企鹅群&nbsp;
+          span.hover(:tips="$t('view.setting.click_open')" @click="handleOpenUrl('https://qm.qq.com/cgi-bin/qm/qr?k=zR6aYosQoKb07g4FGFZdO9n9zL1dhFpE&jump_from=webapi')") 768786588
+          | &nbsp;，注意：测试版的功可能会不稳定，
+          strong 打算潜水的勿加
 
         br
         p.small 由于软件开发的初衷仅是为了对新技术的学习与研究，因此软件直至停止维护都将会一直保持纯净。

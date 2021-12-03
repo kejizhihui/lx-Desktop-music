@@ -317,6 +317,7 @@ const mutations = {
         id,
         list: [],
         source,
+        position,
         sourceListId,
       }
       addUserList(newList)
@@ -345,9 +346,10 @@ const mutations = {
       })
     }
 
-    let list = allList[id]
+    let list = userLists[id]
     if (!list) return
     list.name = name
+    window.eventHub.emit(eventListNames.listChange, [id])
   },
   moveupUserList(state, { id, isSync }) {
     if (!isSync) {
@@ -359,9 +361,10 @@ const mutations = {
 
     const index = userLists.findIndex(l => l.id == id)
     if (index < 0) return
-    let targetList = allList[id]
+    let targetList = userLists[id]
     userLists.splice(index, 1)
     userLists.splice(index - 1, 0, targetList)
+    window.eventHub.emit(eventListNames.listChange, [id])
   },
   movedownUserList(state, { id, isSync }) {
     if (!isSync) {
@@ -372,9 +375,10 @@ const mutations = {
     }
     const index = userLists.findIndex(l => l.id == id)
     if (index < 0) return
-    let targetList = allList[id]
+    let targetList = userLists[id]
     userLists.splice(index, 1)
     userLists.splice(index + 1, 0, targetList)
+    window.eventHub.emit(eventListNames.listChange, [id])
   },
   setMusicPosition(state, { id, position, list, isSync }) {
     if (!isSync) {

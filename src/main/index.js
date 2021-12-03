@@ -38,7 +38,7 @@ if (process.platform == 'linux') app.commandLine.appendSwitch('use-gl', 'desktop
 app.commandLine.appendSwitch('wm-window-animations-disabled')
 
 
-const { navigationUrlWhiteList } = require('../common/config')
+const { navigationUrlWhiteList, themes } = require('../common/config')
 const { getWindowSizeInfo, initSetting, updateSetting } = require('./utils')
 const { isMac, isLinux, initHotKey } = require('../common/utils')
 
@@ -46,7 +46,7 @@ const { isMac, isLinux, initHotKey } = require('../common/utils')
 // https://github.com/electron/electron/issues/18397
 // 开发模式下为true时 多次引入native模块会导致渲染进程卡死
 // https://github.com/electron/electron/issues/22791
-app.allowRendererProcessReuse = !isDev
+// app.allowRendererProcessReuse = !isDev
 
 
 app.on('web-contents-created', (event, contents) => {
@@ -121,7 +121,7 @@ function createWindow() {
     },
   })
 
-  global.modules.mainWindow.loadURL(winURL)
+  global.modules.mainWindow.loadURL(winURL + `?dt=${!!global.envParams.cmdParams.dt}&theme=${themes.find(t => t.id == global.appSetting.themeId)?.className ?? themes[0].className}`)
 
   winEvent(global.modules.mainWindow)
   // global.modules.mainWindow.webContents.openDevTools()

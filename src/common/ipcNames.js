@@ -8,6 +8,8 @@ const names = {
     clear_cache: 'clear_cache',
     get_cache_size: 'get_cache_size',
     get_env_params: 'get_env_params',
+    wait: 'wait',
+    wait_cancel: 'wait_cancel',
 
     set_music_meta: 'set_music_meta',
     progress: 'progress',

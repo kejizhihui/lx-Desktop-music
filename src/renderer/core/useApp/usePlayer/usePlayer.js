@@ -98,10 +98,11 @@ export default ({ setting }) => {
       type,
       isRefresh,
       onToggleSource() {
+        if (targetSong !== musicInfoItem.value || isPlay.value || type != getPlayType(setting.value.player.highQuality, musicInfoItem.value)) return
         setAllStatus('Try toggle source...')
       },
     }).then(url => {
-      if (targetSong !== musicInfoItem.value || isPlay.value) return
+      if (targetSong !== musicInfoItem.value || isPlay.value || type != getPlayType(setting.value.player.highQuality, musicInfoItem.value)) return
       setMusicInfo({ url })
       setResource(url)
     }).catch(err => {
@@ -177,7 +178,7 @@ export default ({ setting }) => {
     window.eventHub.emit(eventPlayerNames.setPlayInfo, {
       musicInfo: musicInfoItem.value,
       progress: {
-        time: restorePlayInfo.time || 0,
+        time: setting.value.player.isSavePlayTime ? (restorePlayInfo.time || 0) : 0,
         maxTime: restorePlayInfo.maxTime || 0,
       },
     })

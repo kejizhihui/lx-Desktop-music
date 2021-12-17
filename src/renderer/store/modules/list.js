@@ -320,6 +320,7 @@ const mutations = {
         position,
         sourceListId,
       }
+      if (position) newList.locationUpdateTime = Date.now()
       addUserList(newList)
     }
     this.commit('list/listAddMultiple', { id, list, isSync: true })
@@ -361,10 +362,7 @@ const mutations = {
 
     const index = userLists.findIndex(l => l.id == id)
     if (index < 0) return
-    let targetList = userLists[index]
-    userLists.splice(index, 1)
-    userLists.splice(index - 1, 0, targetList)
-    window.eventHub.emit(eventListNames.listChange, [id])
+    this.commit('list/setUserListPosition', { id, position: index - 1 })
   },
   movedownUserList(state, { id, isSync }) {
     if (!isSync) {
@@ -375,9 +373,21 @@ const mutations = {
     }
     const index = userLists.findIndex(l => l.id == id)
     if (index < 0) return
+    this.commit('list/setUserListPosition', { id, position: index + 1 })
+  },
+  setUserListPosition(state, { id, position, isSync }) {
+    if (!isSync) {
+      window.eventHub.emit(eventSyncName.send_action_list, {
+        action: 'set_user_list_position',
+        data: { id, position },
+      })
+    }
+    const index = userLists.findIndex(l => l.id == id)
+    if (index < 0) return
     let targetList = userLists[index]
     userLists.splice(index, 1)
-    userLists.splice(index + 1, 0, targetList)
+    userLists.splice(Math.max(Math.min(position, userLists.length - 1), 0), 0, targetList)
+    targetList.locationUpdateTime = Date.now()
     window.eventHub.emit(eventListNames.listChange, [id])
   },
   setMusicPosition(state, { id, position, list, isSync }) {

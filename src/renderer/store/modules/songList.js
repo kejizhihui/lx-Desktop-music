@@ -81,16 +81,18 @@ const actions = {
     commit('clearList')
     return music[source].songList.getList(sortId, tabId, page).then(result => commit('setList', { result, key, page }))
   },
-  getListDetail({ state, rootState, commit }, { id, page }) {
-    let source = rootState.setting.songList.source
+  getListDetail({ state, commit }, { id, source, page }) {
     let key = `sdetail__${source}__${id}__${page}`
-    if (state.listDetail.list.length && state.listDetail.key == key) return Promise.resolve()
+    if (state.listDetail.list.length && state.listDetail.key == key) return Promise.resolve(state.listDetail.list)
     commit('clearListDetail')
     return (
       cache.has(key)
         ? Promise.resolve(cache.get(key))
         : music[source].songList.getListDetail(id, page).then(result => ({ ...result, list: filterList(result.list) }))
-    ).then(result => commit('setListDetail', { result, key, source, id, page }))
+    ).then(result => {
+      commit('setListDetail', { result, key, source, id, page })
+      return result.list
+    })
   },
   getListDetailAll({ state, rootState }, { source, id }) {
     // console.log(source, id)

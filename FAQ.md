@@ -305,15 +305,33 @@ Windows 7 未开启 Aero 效果时桌面歌词会有问题，详情看上面的 
 
 - URL统一以`lxmusic://`开头
 - 此技术目前只支持 Windows、Mac系统
-- URL传参以经过URL编码的JSON数据传参，例：`lxmusic://music/play?data=xxxx`，其中`xxxx`为经过URL编码后的JSON数据
 - 若无特别说明，源的可用值为：`kw/kg/tx/wy/mg`
 - 若无特别说明，音质的可用值为：`128k/320k/flac/flac32bit`
+
+目前支持两种传参方式：
+
+- 通过`data`传参，以经过URL编码的JSON数据传参，例：`lxmusic://music/play?data=xxxx`，其中`xxxx`为经过URL编码后的JSON数据，支持复杂的参数调用
+- 通过`URL`传参，适用于简单传参的调用，不需要转成JSON格式，例：`lxmusic://music/search/xxxx`，但仍然需要对数据进行URL编码，只适应于简单参数调用（v1.18.0新增）
+
+### `data`方式传参
+
+以经过URL编码的JSON数据传参，例：`lxmusic://music/play?data=xxxx`，其中`xxxx`为经过URL编码后的JSON数据，JSON数据内容取决于下表的参数部分
 
 | 描述 | URL | 参数
 | --- | --- | ---
 | 打开歌单 | `songlist/open` | `source<String>`（源，必须）<br>`id<String/Number>`（歌单ID，可选）<br>`url<String>`（歌单URL，可选）其中ID与URL必需传一个
 | 播放歌单 | `songlist/play` | `source<String>`（源，必须）<br>`id<String/Number>`（歌单ID，可选）<br>`url<String>`（歌单URL，可选）其中`id`与`url`必需传一个<br>`index<Number>`（播放第几首歌，可选，从0开始）
+| 搜索歌曲 | `music/search` | `keywords<String/Number>`（要搜索的内容，必须）<br>`source<String>`（源，可选）
 | 播放歌曲 | `music/play` | `name<String>`（歌曲名，必传）<br>`singer<String>`（艺术家名，必传）<br>`source<String>`（源，必传）<br>`songmid<String/Number>`（歌曲ID，必传）<br>`img<String>`（歌曲图片链接，选传）<br>`albumId<String/Number>`（歌曲专辑ID，选传）<br>`interval<String>`（格式化后的歌曲时长，选传，例：`03:55`）<br>`albumName<String>`（歌曲专辑名称，选传）<br>`types<Object>`（歌曲可用音质数组，必传，<br>数组格式：`[{"type": "<音质>", size: "<格式化后的文件大小，选传>", hash: "<kg源必传>"}]`，<br>例：`[{"type": "128k", size: "3.56M"}, {"type": "320k", size: null}]`）<br><br>以下为平台特定参数：<br>`hash<String>`（歌曲hash，kg源必传）<br>`strMediaMid<String>`（歌曲strMediaMid，tx源必传）<br>`albumMid<String>`（歌曲albumMid，tx源专用，选传）<br>`copyrightId<String>`（歌曲copyrightId，mg源必传）<br>`lrcUrl<String>`（歌曲lrcUrl，mg源专用，选传）
+
+### `URL`方式传参
+
+由于URL传参只适用于简单传参场景，所以目前只支持以下功能的调用：
+
+| 描述 | URL | 参数
+| --- | --- | ---
+| 搜索歌曲 | `music/search/{source}/{keywords}` | `source`（源，可选）<br>`keywords`（要搜索的内容，必须）<br>例：`music/search/kw/xxx`、`music/search/xxx`
+| 打开歌单 | `songlist/open/{source}/{id/url}` | `source`（源，必须）<br>`id/url`（歌单ID或歌单URL，必须）<br>例：`songlist/open/kw/123456`
 
 ## 自定义源脚本编写说明
 
@@ -427,6 +445,7 @@ send(EVENT_NAMES.inited, {
 | --- | ---
 | `inited` | 脚本初始化完成后发送给应用的事件名，发送该事件时需要传入以下信息：`{status, sources, openDevTools}`<br>`status`：初始化结果（`true`成功，`false`失败）<br>`openDevTools`：是否打开DevTools，此选项可用于开发脚本时的调试<br>`sources`：支持的源信息对象，<br>`sources[kw/kg/tx/wy/mg].name`：源的名字（目前非必须）<br>`sources[kw/kg/tx/wy/mg].type`：源类型，目前固定值需为`music`<br>`sources[kw/kg/tx/wy/mg].actions`：支持的actions，由于目前只支持`musicUrl`，所以固定传`['musicUrl']`即可<br>`sources[kw/kg/tx/wy/mg].qualitys`：该源支持的音质列表，有效的值为`['128k', '320k', 'flac']`，该字段用于控制应用可用的音质类型
 | `request` | 应用API请求事件名，回调入参：`handler({ source, action, info})`，回调必须返回`Promise`对象<br>`source`：音乐源，可能的值取决于初始化时传入的`sources`对象的源key值<br>`info`：请求附加信息，内容根据`action`变化<br>`action`：请求操作类型，目前只有`musicUrl`，即获取音乐URL链接，需要在 Promise 返回歌曲 url，`info`的结构：`{type, musicInfo}`，`info.type`：音乐质量，可能的值有`128k` / `320k` / `flac`（取决于初始化时对应源传入的`qualitys`值中的一个），`info.musicInfo`：音乐信息对象，里面有音乐ID、名字等信息
+| `updateAlert` | 显示源更新弹窗，发送此事件时，需要传入一个字符串（更新日志），内容可以使用`\n`换行，最大长度1024，超过此长度后将被截取超出的部分，此事件每次运行脚本只能调用一次（源版本v1.2.0新增）<br>例子：`lx.send(lx.EVENT_NAMES.updateAlert, 'hello world')`
 
 
 #### `window.lx.on`

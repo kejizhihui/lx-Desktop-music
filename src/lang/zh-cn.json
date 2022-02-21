@@ -140,7 +140,7 @@
   "my_list": "我的列表",
   "no_item": "列表竟然是空的...",
   "not_agree": "不接受",
-  "ok": "好吧",
+  "ok": "我知道了",
   "pagination__next": "下一页",
   "pagination__page": "第 {num} 页",
   "pagination__prev": "上一页",
@@ -210,6 +210,7 @@
   "setting__basic_control_btn_position": "控制按钮位置",
   "setting__basic_control_btn_position_left": "左边",
   "setting__basic_control_btn_position_right": "右边",
+  "setting__basic_font": "字体",
   "setting__basic_lang": "语言",
   "setting__basic_lang_title": "软件显示的语言",
   "setting__basic_show_animation": "显示切换动画",
@@ -415,9 +416,11 @@
   "user_api__btn_import": "导入",
   "user_api__btn_remove": "移除",
   "user_api__import_file": "选择音乐API脚本文件",
+  "user_api__max_tip": "最多只能同时存在20个源哦🤪\n想要继续导入的话，请先移除一些旧的源腾出位置吧",
   "user_api__noitem": "这里竟然是空的 😲",
   "user_api__note": "提示：虽然我们已经尽可能地隔离了脚本的运行环境，但导入包含恶意行为的脚本仍可能会影响你的系统，请谨慎导入。",
   "user_api__readme": "源编写说明：",
   "user_api__title": "自定义源管理",
-  "user_api__update_alert": "自定义源 [{name}] 发现新版本："
+  "user_api__update_alert": "自定义源 [{name}] 发现新版本：",
+  "user_api__update_alert_open_url": "打开更新地址"
 }

@@ -140,7 +140,7 @@
   "my_list": "Your Library",
   "no_item": "Nothing's here...",
   "not_agree": "Not accept",
-  "ok": "Ok",
+  "ok": "OK",
   "pagination__next": "Next page",
   "pagination__page": "Page {num}",
   "pagination__prev": "Previous page",
@@ -210,6 +210,7 @@
   "setting__basic_control_btn_position": "Control Button Position",
   "setting__basic_control_btn_position_left": "Left",
   "setting__basic_control_btn_position_right": "Right",
+  "setting__basic_font": "Font",
   "setting__basic_lang": "Language",
   "setting__basic_lang_title": "The language displayed in the software",
   "setting__basic_show_animation": "Show switching animation",
@@ -415,9 +416,11 @@
   "user_api__btn_import": "Import",
   "user_api__btn_remove": "Remove",
   "user_api__import_file": "Select music API script file",
+  "user_api__max_tip": "There can only be a maximum of 20 sources at the same time🤪\nIf you want to continue importing, please remove some old sources to make room",
   "user_api__noitem": "There is nothing here...😲",
   "user_api__note": "Tip: Although we have isolated the script's running environment as much as possible, importing scripts containing malicious behaviors may still affect your system. Please import them carefully.",
   "user_api__readme": "Source writing instructions: ",
   "user_api__title": "Custom Source Management",
-  "user_api__update_alert": "Custom source [{name}] found new version:"
+  "user_api__update_alert": "Custom source [{name}] found new version:",
+  "user_api__update_alert_open_url": "Open update address"
 }

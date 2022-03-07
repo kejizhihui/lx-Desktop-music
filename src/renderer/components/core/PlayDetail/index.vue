@@ -296,9 +296,7 @@ export default {
       }
       .right {
         flex-basis: 30%;
-        .lyric {
-          font-size: 13px;
-        }
+        --playDetail-lrc-font-size: 13px !important;
         .lyricSelectContent {
           font-size: 14px;
         }

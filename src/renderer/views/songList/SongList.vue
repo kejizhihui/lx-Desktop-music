@@ -201,11 +201,15 @@ export default {
     }),
     listenEvent() {
       window.eventHub.on('key_backspace_down', this.handle_key_backspace_down)
-      window.addEventListener('resize', this.setTagListWidth)
+      window.addEventListener('resize', this.handleSetTagWidth)
     },
     unlistenEvent() {
       window.eventHub.off('key_backspace_down', this.handle_key_backspace_down)
-      window.removeEventListener('resize', this.setTagListWidth)
+      window.removeEventListener('resize', this.handleSetTagWidth)
+    },
+    handleSetTagWidth() {
+      this.setTagListWidth()
+      setTimeout(this.setTagListWidth, 100)
     },
     handle_key_backspace_down({ event }) {
       if (!this.isVisibleListDetail ||

@@ -8,7 +8,7 @@ import {
   toRaw,
   useCommit,
   onBeforeUnmount,
-  watchEffect,
+  watch,
   useRefGetter,
 } from '@renderer/utils/vueTools'
 
@@ -28,6 +28,7 @@ const handle_open_devtools = event => {
   rendererSend(NAMES.mainWindow.open_dev_tools)
 }
 const handle_fullscreen = event => {
+  if (event.event.repeat) return
   rendererInvoke(NAMES.mainWindow.fullscreen, !isFullscreen.value).then(fullscreen => {
     isFullscreen.value = fullscreen
   })
@@ -42,12 +43,13 @@ export default ({
 }) => {
   const setSetting = useCommit('setSetting')
   const windowSizeActive = useRefGetter('windowSizeActive')
+  const isShowAnimation = useRefGetter('isShowAnimation')
 
-  watchEffect(() => {
-    document.documentElement.style.fontSize = windowSizeActive.value.fontSize
+  watch(windowSizeActive, ({ fontSize }) => {
+    document.documentElement.style.fontSize = fontSize
   })
-  watchEffect(() => {
-    if (setting.value.isShowAnimation) {
+  watch(isShowAnimation, val => {
+    if (val) {
       if (document.body.classList.contains('disableAnimation')) {
         document.body.classList.remove('disableAnimation')
       }

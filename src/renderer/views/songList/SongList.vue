@@ -158,7 +158,7 @@ export default {
         this.sortId = this.sorts[0] && this.sorts[0].id
       }
     },
-    'setting.themeId'() {
+    'setting.theme.id'() {
       this.setTagListWidth()
     },
   },
@@ -208,8 +208,10 @@ export default {
       window.removeEventListener('resize', this.handleSetTagWidth)
     },
     handleSetTagWidth() {
-      this.setTagListWidth()
-      setTimeout(this.setTagListWidth, 100)
+      setTimeout(() => {
+        this.setTagListWidth()
+        setTimeout(this.setTagListWidth, 100)
+      })
     },
     handle_key_backspace_down({ event }) {
       if (!this.isVisibleListDetail ||

@@ -84,6 +84,7 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize)
@@ -92,11 +93,11 @@ export default {
     ...mapMutations('list', ['listAdd', 'listMove', 'createUserList']),
     handleResize() {
       const width = window.innerWidth
-      this.rowNum = width <= 1440
+      this.rowNum = width < 1920
         ? 3
-        : width <= 1920
+        : width < 2560
           ? 4
-          : width <= 2560 ? 5 : 6
+          : width < 3840 ? 5 : 6
     },
     handleClick(index) {
       this.isMove
@@ -164,6 +165,7 @@ export default {
 
 @item-width: (100% / 3);
 .btn {
+  position: relative;
   box-sizing: border-box;
   margin-left: 15px;
   margin-bottom: 15px;
@@ -198,6 +200,9 @@ export default {
   }
 }
 .newListInput {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 34px;
   border: none;
@@ -208,23 +213,25 @@ export default {
   font-size: 14px;
   text-align: center;
   font-family: inherit;
+  box-sizing: border-box;
+  padding: 0 10px;
   display: none;
 }
 
 @item-width2: (100% / 4);
-@media screen and (min-width: 1920px){
+@media (min-width: 1920px){
   .btn {
     width: calc(@item-width2 - 15px);
   }
 }
 @item-width3: (100% / 5);
-@media screen and (min-width: 2048px){
+@media (min-width: 2560px){
   .btn {
     width: calc(@item-width3 - 15px);
   }
 }
 @item-width4: (100% / 6);
-@media screen and (min-width: 2560px){
+@media (min-width: 3840px){
   .btn {
     width: calc(@item-width4 - 15px);
   }

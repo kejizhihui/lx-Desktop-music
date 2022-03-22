@@ -491,11 +491,17 @@ export const parseUrlParams = str => {
 }
 
 export const getLyric = musicInfo => rendererInvoke(NAMES.mainWindow.get_lyric, `${musicInfo.source}_${musicInfo.songmid}`)
-export const setLyric = (musicInfo, { lyric, tlyric, lxlyric }) => rendererSend(NAMES.mainWindow.save_lyric, {
+export const setLyric = (musicInfo, { lyric, tlyric, lxlyric }) => rendererSend(NAMES.mainWindow.save_lyric_raw, {
   id: `${musicInfo.source}_${musicInfo.songmid}`,
   lyrics: { lyric, tlyric, lxlyric },
 })
-export const clearLyric = () => rendererSend(NAMES.mainWindow.clear_lyric)
+export const setLyricEdited = (musicInfo, { lyric, tlyric, lxlyric }) => rendererSend(NAMES.mainWindow.save_lyric_edited, {
+  id: `${musicInfo.source}_${musicInfo.songmid}`,
+  lyrics: { lyric, tlyric, lxlyric },
+})
+export const removeLyricEdited = musicInfo => rendererSend(NAMES.mainWindow.remove_lyric_edited, `${musicInfo.source}_${musicInfo.songmid}`)
+
+export const clearLyric = () => rendererSend(NAMES.mainWindow.clear_lyric_raw)
 
 export const getMusicUrl = (musicInfo, type) => rendererInvoke(NAMES.mainWindow.get_music_url, `${musicInfo.source}_${musicInfo.songmid}_${type}`)
 export const setMusicUrl = (musicInfo, type, url) => rendererSend(NAMES.mainWindow.save_music_url, {
@@ -570,4 +576,14 @@ export const getFontSizeWithScreen = (screenWidth = window.innerWidth) => {
       : screenWidth <= 2560
         ? 20
         : screenWidth <= 2560 ? 20 : 22
+}
+
+
+export const deduplicationList = list => {
+  const ids = new Set()
+  return list.filter(s => {
+    if (ids.has(s.songmid)) return false
+    ids.add(s.songmid)
+    return true
+  })
 }

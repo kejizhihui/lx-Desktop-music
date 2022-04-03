@@ -1,6 +1,6 @@
 {
   "name": "lx-music-desktop",
-  "version": "1.20.0-beta5",
+  "version": "1.20.0-beta6",
   "description": "一个免费的音乐查找助手",
   "main": "./dist/electron/main.js",
   "productName": "lx-music-desktop",
@@ -104,7 +104,11 @@
     },
     "mac": {
       "icon": "./resources/icons/icon.icns",
-      "category": "public.app-category.music"
+      "category": "public.app-category.music",
+      "extendInfo": {
+        "CFBundleName": "lx-music-desktop",
+        "CFBundleDisplayName": "LX Music"
+      }
     },
     "linux": {
       "maintainer": "lyswhut <lyswhut@qq.com>",
